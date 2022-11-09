@@ -64,6 +64,7 @@ Eigen::Matrix4f get_projection_matrix(float eye_fov, float aspect_ratio, float z
         0, 0, 0, 1;
 
     M_ortho = M_ortho * M_trans;
+    
     projection = M_ortho * M_persp * projection;
     return projection;
 }
@@ -118,6 +119,18 @@ int main(int argc, const char** argv)
 
     int key = 0;
     int frame_count = 0;
+
+    // 以 点：{ 2, 2, -2 } 为例，求经过 MVP 矩阵变换后的输出。本框架齐次坐标 w 分量设置为 1
+    Vector4f test = { 2, 2, -2, 1};
+    Eigen::Matrix4f mvp = get_projection_matrix(45, 1, 0.1f, 50) * get_view_matrix(eye_pos) * get_model_matrix(angle);
+    test = mvp * test;
+    //std:: cout << test[0] / test[3];
+    //std:: cout << "---";
+    //std:: cout << test[1] / test[3];
+    //std::cout << "---";
+    //std::cout << test[2] / test[3];
+    //std::cout << "---";
+    std::cout << test;
 
     if (command_line)
     {

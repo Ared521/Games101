@@ -111,8 +111,8 @@ void rst::rasterizer::draw(pos_buf_id pos_buffer, ind_buf_id ind_buffer, col_buf
         //Viewport transformation
         for (auto & vert : v)
         {
-            vert.x() = 0.5*width*(vert.x()+1.0);
-            vert.y() = 0.5*height*(vert.y()+1.0);
+            vert.x() = 0.5 * width * (vert.x() + 1.0);
+            vert.y() = 0.5 * height * (vert.y() + 1.0);
             vert.z() = vert.z() * f1 + f2;
         }
 
@@ -218,6 +218,7 @@ void rst::rasterizer::rasterize_triangle_MSAA(const Triangle& t) {
                 float alpha = std::get<0>(abg);
                 float beta = std::get<1>(abg);
                 float gamma = std::get<2>(abg);
+                // 这里的 v[i].w 本来应该是深度值，这个框架写死了= 1。又因为 alpha + beta + gamma = 1，所以 w_reciprocal = 1
                 float w_reciprocal = 1.0 / (alpha / v[0].w() + beta / v[1].w() + gamma / v[2].w());
                 float z_interpolated = alpha * v[0].z() / v[0].w() + beta * v[1].z() / v[1].w() + gamma * v[2].z() / v[2].w();
                 z_interpolated *= w_reciprocal;
